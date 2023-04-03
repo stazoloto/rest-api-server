@@ -1,12 +1,15 @@
 package main
 
 import (
-	"fmt"
+	"flag"
 	"log"
 	"net/http"
 )
 
 func main() {
+	addr := flag.String("addr", ":3000", "HTTP address")
+	flag.Parse()
+
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", homeHandler)
 	mux.HandleFunc("/snippet", showSnippetHandler)
@@ -15,8 +18,8 @@ func main() {
 	fileServer := http.FileServer(http.Dir("./ui/static/"))
 	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
 
-	fmt.Printf("Starting server at port 3000\n")
-	err := http.ListenAndServe(":3000", mux)
+	log.Printf("Server start at port %s", *addr)
+	err := http.ListenAndServe(*addr, mux)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
