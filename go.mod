@@ -1,3 +1,3 @@
-module github.com/Stisin/rest-api-server
+module github.com/stazoloto/rest-api-server
 
 go 1.20
