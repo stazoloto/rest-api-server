@@ -4,26 +4,39 @@ import (
 	"flag"
 	"log"
 	"net/http"
+	"os"
 	"path/filepath"
 )
 
+type application struct {
+	errorLog *log.Logger
+	infoLog  *log.Logger
+}
+
 func main() {
-	addr := flag.String("addr", ":3000", "HTTP address")
+	// Setting the HTTP address via the terminal
+	addr := flag.String("addr", ":4000", "HTTP address")
 	flag.Parse()
 
-	mux := http.NewServeMux()
-	mux.HandleFunc("/", homeHandler)
-	mux.HandleFunc("/snippet", showSnippetHandler)
-	mux.HandleFunc("/snippet/create", createSnippetHandler)
+	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
+	errorLog := log.New(os.Stderr, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
 
-	fileServer := http.FileServer(neuteredFileSystem{http.Dir("./static")})
-	mux.Handle("/static", http.NotFoundHandler())
-	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
+	app := &application{
+		errorLog: errorLog,
+		infoLog:  infoLog,
+	}
 
-	log.Printf("Server start at port %s", *addr)
-	err := http.ListenAndServe(*addr, mux)
+	srv := &http.Server{
+		Addr:     *addr,
+		ErrorLog: errorLog,
+		Handler:  app.routes(),
+	}
+
+	// Start server
+	infoLog.Printf("Start server %s", *addr)
+	err := srv.ListenAndServe()
 	if err != nil {
-		log.Fatal("ListenAndServe: ", err)
+		errorLog.Fatal(err)
 	}
 }
 
