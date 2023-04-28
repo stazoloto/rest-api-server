@@ -2,16 +2,14 @@ package main
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/stazoloto/rest-api-server/cmd/routes"
+	database "github.com/stazoloto/rest-api-server/internal/database/postgresql"
+	"github.com/stazoloto/rest-api-server/internal/transport/rest/routes"
 )
-
-func initDatabase() {
-	var err error
-	database.DBConn := 
-}
 
 func main() {
 	app := fiber.New()
+
+	database.ConnectDB()
 
 	router := &routes.Router{}
 	router.IndexSetupRoutes(app)

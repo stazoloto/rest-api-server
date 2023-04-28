@@ -2,7 +2,7 @@ package routes
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/stazoloto/rest-api-server/cmd/handlers"
+	"github.com/stazoloto/rest-api-server/internal/transport/rest/handlers"
 )
 
 type Router struct{}
