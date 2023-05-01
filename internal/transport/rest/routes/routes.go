@@ -12,8 +12,11 @@ func (r *Router) IndexSetupRoutes(app *fiber.App) {
 }
 
 func (r *Router) BookSetupRoutes(app *fiber.App) {
-	app.Get("/api/v1/book", handlers.GetBooks)
-	app.Get("/api/v1/book/:id", handlers.GetBook)
-	app.Post("/api/v1/book", handlers.NewBook)
-	app.Delete("/api/v1/book:id", handlers.DeleteBook)
+	api := app.Group("/api")
+
+	api.Get("/book", handlers.GetBooks)
+	api.Get("/book/:id", handlers.GetBook)
+	api.Post("/book", handlers.NewBook)
+	api.Put("/book:id", handlers.UpdateBook)
+	api.Delete("/book:id", handlers.DeleteBook)
 }

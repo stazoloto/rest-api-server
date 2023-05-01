@@ -5,10 +5,10 @@ import (
 	"gorm.io/gorm"
 )
 
-type Note struct {
+type Book struct {
 	gorm.Model
-	Id       uuid.UUID `gorm:"type:uuid"`
-	Title    string
-	SubTitle string
-	Text     string
+	Id     uuid.UUID `gorm:"type:uuid"`
+	Title  string
+	Author string
+	Rating string
 }

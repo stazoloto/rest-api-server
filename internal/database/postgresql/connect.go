@@ -2,6 +2,7 @@ package database
 
 import (
 	"fmt"
+	"github.com/stazoloto/rest-api-server/internal/model"
 	"log"
 	"strconv"
 
@@ -28,6 +29,12 @@ func ConnectDB() {
 	if err != nil {
 		panic("failed to connect database")
 	}
+	log.Println("connection opened to database")
 
-	fmt.Println("connection opened to database")
+	err = DB.AutoMigrate(&model.Book{})
+	if err != nil {
+		log.Println(err.Error())
+		return
+	}
+	log.Println("Database migrated")
 }

@@ -5,5 +5,5 @@ import (
 )
 
 func IndexHandler(ctx *fiber.Ctx) error {
-	return ctx.SendString("Pdjknglksnd")
+	return ctx.SendString("Home")
 }
