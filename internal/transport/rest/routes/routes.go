@@ -17,6 +17,6 @@ func (r *Router) BookSetupRoutes(app *fiber.App) {
 	api.Get("/book", handlers.GetBooks)
 	api.Get("/book/:bookId", handlers.GetBook)
 	api.Post("/book", handlers.NewBook)
-	api.Put("/book:bookId", handlers.UpdateBook)
-	api.Delete("/book:bookId", handlers.DeleteBook)
+	api.Put("/book/:bookId", handlers.UpdateBook)
+	api.Delete("/book/:bookId", handlers.DeleteBook)
 }
